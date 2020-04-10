@@ -8,14 +8,14 @@ export class RecipeService {
 
   private recipes: Recipe[] = [
     new Recipe(
-      'A Test Recipe',
-      'This is simply a test',
-      'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg'
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel - Just awesome',
+      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG'
     ),
     new Recipe(
-      'Another Test Recipe',
-      'This is simply another test',
-      'https://cdn.pixabay.com/photo/2016/06/15/19/09/food-1459693_1280.jpg'
+      'Big Fat Burger',
+      'What else do you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg'
     )
   ];
 
