@@ -6,7 +6,7 @@
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
       </button>
-      <a class="navbar-brand" routerLink="/">Recipe Book</a>
+      <a class="navbar-brand" routerLink="/" style="cursor: pointer">Recipe Book</a>
     </div>
 
     <div class="collapse navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
@@ -16,10 +16,10 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" appDropdown>
-          <a href="#" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+          <a style="cursor: pointer" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Save Data</a></li>
-            <li><a href="#">Fetch Data</a></li>
+            <li><a style="cursor: pointer">Save Data</a></li>
+            <li><a style="cursor: pointer">Fetch Data</a></li>
           </ul>
         </li>
       </ul>
