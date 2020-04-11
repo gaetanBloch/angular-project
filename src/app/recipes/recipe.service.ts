@@ -14,7 +14,8 @@ export class RecipeService {
       'A super-tasty Schnitzel - Just awesome',
       'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
       [
-        new Ingredient('Meat', 1),
+        new Ingredient('Chicken', 1),
+        new Ingredient('Lemon', 2),
         new Ingredient('French Fries', 20)
       ]
     ),
@@ -24,7 +25,9 @@ export class RecipeService {
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
       [
         new Ingredient('Buns', 2),
-        new Ingredient('Meat', 1)
+        new Ingredient('Salad', 1),
+        new Ingredient('Cheddar', 2),
+        new Ingredient('Patty', 1)
       ]
     )
   ];
@@ -34,6 +37,10 @@ export class RecipeService {
 
   getRecipes(): Recipe[] {
     return this.recipes.slice();
+  }
+
+  getRecipe(index: number) {
+    return this.recipes[index];
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]): void {

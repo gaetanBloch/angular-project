@@ -1,7 +1,7 @@
 <a style="cursor: pointer" class="list-group-item clearfix" (click)="onRecipeSelect()">
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
-    <p class="list-group-item-text"> {{ recipe.description }}</p>
+    <p class="list-group-item-text" style="font-style: italic"> {{ recipe.description }}</p>
   </div>
   <div class="pull-right">
     <img [src]="recipe.imagePath" alt="{{ recipe.name }}" class="img-responsive" style="max-height: 50px;">
