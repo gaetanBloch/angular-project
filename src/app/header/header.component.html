@@ -6,13 +6,13 @@
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
       </button>
-      <a href="#" class="navbar-brand">Recipe Book</a>
+      <a class="navbar-brand" routerLink="/">Recipe Book</a>
     </div>
 
     <div class="collapse navbar-collapse" [class.collapse]="collapsed" (window:resize)="collapsed = true">
       <ul class="nav navbar-nav">
-        <li><a href="#" (click)="onSelect(recipeString)">Recipes</a></li>
-        <li><a href="#" (click)="onSelect(shoppingListString)">Shopping List</a></li>
+        <li><a routerLink="/recipes">Recipes</a></li>
+        <li><a routerLink="/shopping-list">Shopping List</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" appDropdown>
