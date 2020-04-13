@@ -42,6 +42,6 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   hasIngredients(): boolean {
-    return this.recipeService.getRecipes().length > 0;
+    return this.recipe.ingredients.length > 0;
   }
 }
