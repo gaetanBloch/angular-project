@@ -5,3 +5,7 @@
 .no-padding {
   padding-right: 0;
 }
+
+.ingredient-row {
+  margin-bottom: 5px;
+}

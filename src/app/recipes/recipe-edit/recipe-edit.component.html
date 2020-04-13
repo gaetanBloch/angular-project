@@ -47,15 +47,19 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
+        <div class="col-xs-12" formArrayName="ingredients">
+          <div class="row ingredient-row"
+               [formGroupName]="i"
+               *ngFor="let ingredientControl of ingredientControls; let i = index">
             <div class="col-xs-8">
               <input type="text"
-                     class="form-control no-padding">
+                     class="form-control no-padding"
+                     formControlName="name">
             </div>
             <div class="col-xs-2">
               <input type="number"
-                     class="form-control no-padding">
+                     class="form-control no-padding"
+                     formControlName="amount">
             </div>
             <div class="col-xs-2">
               <button class="btn btn-danger pull-right">Delete</button>
