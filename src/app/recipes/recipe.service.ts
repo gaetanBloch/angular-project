@@ -61,6 +61,11 @@ export class RecipeService {
     this.emitRecipesChanged();
   }
 
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.emitRecipesChanged();
+  }
+
   private emitRecipesChanged(): void {
     this.recipesChanged.next(this.recipes.slice());
   }
