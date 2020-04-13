@@ -67,7 +67,10 @@
                      formControlName="amount">
             </div>
             <div class="col-xs-2">
-              <button class="btn btn-danger pull-right">Delete</button>
+              <button class="btn btn-danger pull-right"
+                      type="button"
+                      (click)="onDeleteIngredient(i)">Delete
+              </button>
             </div>
           </div>
           <div class="row">
