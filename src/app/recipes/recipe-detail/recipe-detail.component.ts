@@ -13,7 +13,9 @@ export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
   id: number;
 
-  constructor(private recipeService: RecipeService, private router: Router, private route: ActivatedRoute) {
+  constructor(private recipeService: RecipeService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -32,5 +34,9 @@ export class RecipeDetailComponent implements OnInit {
   onEditRecipe(): void {
     // this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route});
     this.router.navigate(['edit'], {relativeTo: this.route});
+  }
+
+  hasIngredients(): boolean {
+    return this.recipeService.getRecipes().length > 0;
   }
 }
