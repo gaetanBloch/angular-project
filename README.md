@@ -31,6 +31,14 @@ The application was made using Angular 9 and Bootstrap
 
 ![View Recipe Responsive](https://i.imgur.com/kLGGDkV.png)
 
+### Edit Recipe
+
+![Edit Recipe](https://i.imgur.com/rqlumJS.png)
+
+### New Recipe
+
+![New Recipe](https://i.imgur.com/9my6pmY.png)
+
 ### Shopping List 
 
 ![Shopping List](https://i.imgur.com/WUAxvZR.png)
