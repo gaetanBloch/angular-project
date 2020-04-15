@@ -1,27 +1,44 @@
-# AngularProject
+# Recipe & Shopping List Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+The application was made using Angular 9 and Bootstrap
 
-## Development server
+## Running Application Process
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Download the application by Clicking [this link](https://github.com/gaetanBloch/angular-project/archive/master.zip)
+2. Unzip the application
+3. Download and Install [node.js](https://nodejs.org/en/download/) 
+4. Open a terminal
+5. Move to the root of the application
+6. Run `npm install`
+7. Run `ng serve`
+8. Navigate to http://localhost:4200/ with your favourite browser
 
-## Code scaffolding
+## Application
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Home Page and Recipe List
 
-## Build
+![Home Page](https://i.imgur.com/0U3iNZj.png)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Home Page and Recipe List Responsive
 
-## Running unit tests
+![Home Page Responsive](https://i.imgur.com/a6Iq5th.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### View Recipe
 
-## Running end-to-end tests
+![View Recipe](https://i.imgur.com/c9jknNz.png)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### View Recipe Responsive 
 
-## Further help
+![View Recipe Responsive](https://i.imgur.com/kLGGDkV.png)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Shopping List 
+
+![Shopping List](https://i.imgur.com/WUAxvZR.png)
+
+### Shopping List Responsive
+
+![Shopping List Responsive](https://i.imgur.com/44WUX4a.png)
+
+### 404 NOT FOUND 
+
+![404 NOT FOUND](https://i.imgur.com/vU1rXEb.png)
