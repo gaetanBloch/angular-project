@@ -12,7 +12,16 @@
                name="email"
                required
                email
-               ngModel>
+               ngModel
+               #email="ngModel">
+        <span class="help-block" *ngIf="!email.valid && email.touched">
+          <span *ngIf="email.errors && email.errors['email']">
+                  The email is invalid!
+          </span>
+          <span *ngIf="email.errors && email.errors['required']">
+                  The email is required!
+          </span>
+        </span>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -22,7 +31,16 @@
                name="password"
                required
                minlength="6"
-               ngModel>
+               ngModel
+               #password="ngModel">
+        <span class="help-block" *ngIf="!password.valid && password.touched">
+          <span *ngIf="password.errors && password.errors['minlength']">
+                  The password must have more than 5 characters!
+          </span>
+          <span *ngIf="password.errors && password.errors['required']">
+                  The email is required!
+          </span>
+        </span>
       </div>
 
       <div class="text-center">
