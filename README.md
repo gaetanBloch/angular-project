@@ -19,6 +19,10 @@ The application was made using Angular 9 and Bootstrap
 
 ## Application
 
+### Authentication Page
+
+![Authentication Page](https://i.imgur.com/5IhXggs.png)
+
 ### Home Page and Recipe List
 
 ![Home Page](https://i.imgur.com/0U3iNZj.png)
