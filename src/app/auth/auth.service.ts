@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData {
   kind: string;
@@ -18,7 +19,6 @@ export interface AuthResponseData {
 export class AuthService {
   readonly apiKey = 'AIzaSyAO-uajGQqcQ1p8YkIDu_QEj6ZAWlx6tuo';
   user = new BehaviorSubject<User>(null);
-
 
   private static handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An Unknown error occurred!';
@@ -50,7 +50,7 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
@@ -65,6 +65,10 @@ export class AuthService {
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey,
       {email, password, returnSecureToken: true}
     ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
+  }
+
+  logout(): void {
+    this.router.navigate(['/auth']).then(() => this.user.next(null));
   }
 
   private handleAuthentication(response: AuthResponseData) {
