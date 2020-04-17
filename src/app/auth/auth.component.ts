@@ -38,9 +38,8 @@ export class AuthComponent {
       authObservable = this.authService.signUp(email, password);
     }
     authObservable.subscribe(response => {
-        this.router.navigate(['/recipes']);
-        this.isLoading = false;
         this.error = null;
+        this.router.navigate(['/recipes']).then(() => this.isLoading = false);
       },
       errorMessage => {
         this.error = errorMessage;
