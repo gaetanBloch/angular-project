@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { User } from './user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -17,6 +18,7 @@ export interface AuthResponseData {
 export class AuthService {
   readonly apiKey = 'AIzaSyAO-uajGQqcQ1p8YkIDu_QEj6ZAWlx6tuo';
   readonly defaultErrorMessage = 'An Unknown error occurred!';
+  userSubject = new Subject<User>();
 
   constructor(private http: HttpClient) {
   }
@@ -25,22 +27,28 @@ export class AuthService {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey,
       {email, password, returnSecureToken: true}
-    ).pipe(catchError(this.handleError));
+    ).pipe(catchError(this.handleError), tap(this.handleAuthentication));
   }
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey,
       {email, password, returnSecureToken: true}
-    ).pipe(catchError(this.handleError));
+    ).pipe(catchError(this.handleError), tap(this.handleAuthentication));
   }
 
-  handleError(errorRes: HttpErrorResponse) {
+  private handleAuthentication(response: AuthResponseData) {
+    const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+    const user = new User(response.email, response.localId, response.idToken, expirationDate);
+    this.userSubject.next(user);
+  }
+
+  private handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = this.defaultErrorMessage;
-    if (!errorRes.error || !errorRes.error.error) {
+    if (!errorResponse.error || !errorResponse.error.error) {
       return throwError(errorMessage);
     }
-    switch (errorRes.error.error.message) {
+    switch (errorResponse.error.error.message) {
       case 'EMAIL_EXISTS' :
         errorMessage = 'The email address is already in use by another account.';
         break;
