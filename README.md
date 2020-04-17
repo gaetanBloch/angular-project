@@ -1,6 +1,6 @@
 # Recipe & Shopping List Application
 
-The application was made using Angular 9 and Bootstrap
+The application was made using Angular 9, Bootstrap and Firebase as a backend
 
 ## Running Application Process
 
