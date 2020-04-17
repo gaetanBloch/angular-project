@@ -16,6 +16,7 @@ import { RecipeHomeComponent } from './recipes/recipe-home/recipe-home.component
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     DropdownDirective,
     RecipeHomeComponent,
     RecipeEditComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
