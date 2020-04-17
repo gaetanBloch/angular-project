@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
@@ -17,7 +17,8 @@ export interface AuthResponseData {
 @Injectable({providedIn: 'root'})
 export class AuthService {
   readonly apiKey = 'AIzaSyAO-uajGQqcQ1p8YkIDu_QEj6ZAWlx6tuo';
-  userSubject = new Subject<User>();
+  user = new BehaviorSubject<User>(null);
+
 
   private static handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An Unknown error occurred!';
@@ -69,6 +70,6 @@ export class AuthService {
   private handleAuthentication(response: AuthResponseData) {
     const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
     const user = new User(response.email, response.localId, response.idToken, expirationDate);
-    this.userSubject.next(user);
+    this.user.next(user);
   }
 }
