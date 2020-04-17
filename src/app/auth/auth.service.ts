@@ -17,34 +17,10 @@ export interface AuthResponseData {
 @Injectable({providedIn: 'root'})
 export class AuthService {
   readonly apiKey = 'AIzaSyAO-uajGQqcQ1p8YkIDu_QEj6ZAWlx6tuo';
-  readonly defaultErrorMessage = 'An Unknown error occurred!';
   userSubject = new Subject<User>();
 
-  constructor(private http: HttpClient) {
-  }
-
-  signUp(email: string, password: string): Observable<AuthResponseData> {
-    return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey,
-      {email, password, returnSecureToken: true}
-    ).pipe(catchError(this.handleError), tap(this.handleAuthentication));
-  }
-
-  login(email: string, password: string): Observable<AuthResponseData> {
-    return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey,
-      {email, password, returnSecureToken: true}
-    ).pipe(catchError(this.handleError), tap(this.handleAuthentication));
-  }
-
-  private handleAuthentication(response: AuthResponseData) {
-    const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
-    const user = new User(response.email, response.localId, response.idToken, expirationDate);
-    this.userSubject.next(user);
-  }
-
-  private handleError(errorResponse: HttpErrorResponse) {
-    let errorMessage = this.defaultErrorMessage;
+  private static handleError(errorResponse: HttpErrorResponse) {
+    let errorMessage = 'An Unknown error occurred!';
     if (!errorResponse.error || !errorResponse.error.error) {
       return throwError(errorMessage);
     }
@@ -71,5 +47,28 @@ export class AuthService {
         break;
     }
     return throwError(errorMessage);
+  }
+
+  constructor(private http: HttpClient) {
+  }
+
+  signUp(email: string, password: string): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey,
+      {email, password, returnSecureToken: true}
+    ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
+  }
+
+  login(email: string, password: string): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey,
+      {email, password, returnSecureToken: true}
+    ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
+  }
+
+  private handleAuthentication(response: AuthResponseData) {
+    const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+    const user = new User(response.email, response.localId, response.idToken, expirationDate);
+    this.userSubject.next(user);
   }
 }
