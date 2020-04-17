@@ -21,11 +21,11 @@ The application was made using Angular 9, Bootstrap and Firebase as a backend
 
 ### Authentication Page
 
-![Authentication Page](https://i.imgur.com/5IhXggs.png)
+![Authentication Page](https://i.imgur.com/ak1g5hE.png)
 
 ### Home Page and Recipe List
 
-![Home Page](https://i.imgur.com/0U3iNZj.png)
+![Home Page](https://i.imgur.com/cZDA81N.png)
 
 ### Home Page and Recipe List Responsive
 
