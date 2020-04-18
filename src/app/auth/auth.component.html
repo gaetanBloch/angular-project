@@ -3,9 +3,10 @@
     <div>
       <img src="https://i.imgur.com/bCB5P2u.jpg" class="img-responsive" alt="Angular 9">
     </div>
-    <div class="alert alert-danger" *ngIf="error">
-      <p>{{ error }}</p>
-    </div>
+    <!--    <div class="alert alert-danger" *ngIf="error">-->
+    <!--      <p>{{ error }}</p>-->
+    <!--    </div>-->
+    <app-alert [message]="error" *ngIf="error"></app-alert>
     <div *ngIf="isLoading" class="text-center">
       <app-loading-spinner></app-loading-spinner>
     </div>
