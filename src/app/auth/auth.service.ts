@@ -89,6 +89,9 @@ export class AuthService {
 
     if (loadedUser.token) {
       this.user.next(loadedUser);
+      const expirationDuration =
+        new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationDuration);
     }
   }
 
@@ -103,13 +106,16 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number): void {
+    console.log(`User login expires in: ${expirationDuration} ms`);
     this.tokenExpirationTimeout = setTimeout(() => this.logout(), expirationDuration);
   }
 
   private handleAuthentication(response: AuthResponseData) {
-    const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
+    const expiresInMillis = +response.expiresIn * 1000;
+    const expirationDate = new Date(new Date().getTime() + expiresInMillis);
     const user = new User(response.email, response.localId, response.idToken, expirationDate);
     this.user.next(user);
+    this.autoLogout(expiresInMillis);
     localStorage.setItem('user', JSON.stringify(user));
   }
 }
