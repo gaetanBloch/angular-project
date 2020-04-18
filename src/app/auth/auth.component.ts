@@ -69,6 +69,7 @@ export class AuthComponent {
     alertComponentRef.instance.message = message;
     this.closeSubscription = alertComponentRef.instance.closeAlert.subscribe(() => {
       hostViewContainerRef.clear();
+      this.closeSubscription.unsubscribe();
     });
   }
 }
