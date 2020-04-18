@@ -60,9 +60,11 @@ export class AuthComponent {
   }
 
   private showErrorAlert(message: string): void {
-    const alertFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    const alertComponentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
     const hostViewContainerRef = this.alertHost.viewContainerRef;
     hostViewContainerRef.clear();
-    hostViewContainerRef.createComponent(alertFactory);
+    const alertComponentRef = hostViewContainerRef.createComponent(alertComponentFactory);
+    alertComponentRef.instance.message = message;
   }
 }
