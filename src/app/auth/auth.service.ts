@@ -92,7 +92,9 @@ export class AuthService {
   }
 
   logout(): void {
-    this.router.navigate(['/auth']).then(() => this.user.next(null));
+    this.user.next(null);
+    this.router.navigate(['/auth']);
+    localStorage.removeItem('user');
   }
 
   private handleAuthentication(response: AuthResponseData) {
