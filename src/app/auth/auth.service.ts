@@ -67,6 +67,30 @@ export class AuthService {
     ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
   }
 
+  autoLogin(): void {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      return;
+    }
+
+    const userData: {
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExpirationDate: string
+    } = JSON.parse(user);
+    const loadedUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpirationDate)
+    );
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
+  }
+
   logout(): void {
     this.router.navigate(['/auth']).then(() => this.user.next(null));
   }
@@ -75,5 +99,6 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + +response.expiresIn * 1000);
     const user = new User(response.email, response.localId, response.idToken, expirationDate);
     this.user.next(user);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 }
