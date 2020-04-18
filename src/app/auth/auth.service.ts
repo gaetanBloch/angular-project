@@ -99,6 +99,7 @@ export class AuthService {
     if (this.tokenExpirationTimeout) {
       clearTimeout(this.tokenExpirationTimeout);
     }
+    this.tokenExpirationTimeout = null;
   }
 
   autoLogout(expirationDuration: number): void {
