@@ -49,7 +49,9 @@ import { PlaceholderDirective } from './shared/placeholder/placeholder.directive
     HttpClientModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // Not needed for Angular version >= 9
+  entryComponents: [AlertComponent]
 })
 export class AppModule {
 }
