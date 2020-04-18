@@ -19,6 +19,7 @@ export interface AuthResponseData {
 export class AuthService {
   readonly apiKey = 'AIzaSyAO-uajGQqcQ1p8YkIDu_QEj6ZAWlx6tuo';
   user = new BehaviorSubject<User>(null);
+  tokenExpirationTimeout: number;
 
   private static handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An Unknown error occurred!';
@@ -95,6 +96,13 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(['/auth']);
     localStorage.removeItem('user');
+    if (this.tokenExpirationTimeout) {
+      clearTimeout(this.tokenExpirationTimeout);
+    }
+  }
+
+  autoLogout(expirationDuration: number): void {
+    this.tokenExpirationTimeout = setTimeout(() => this.logout(), expirationDuration);
   }
 
   private handleAuthentication(response: AuthResponseData) {
