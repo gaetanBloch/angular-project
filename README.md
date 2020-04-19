@@ -1,6 +1,9 @@
 # Recipe & Shopping List Application
 
-The application was made using Angular 9, Bootstrap and Firebase as a backend
+The application was made using Angular 9, Bootstrap and Firebase as a backend.
+It consists on a list of recipes and a shopping list.
+
+The application was deployed on firebase, to access it, click [here](https://angular-project-11f6f.web.app).
 
 ## Running Application Process
 
