@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RecipesComponent } from './recipes.component';
@@ -6,7 +7,6 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RecipeHomeComponent } from './recipe-home/recipe-home.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
-import { NgModule } from '@angular/core';
 
 const appRoutes: Routes = [
   {
