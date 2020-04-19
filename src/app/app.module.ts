@@ -20,8 +20,7 @@ import { CoreModule } from './core.module';
     SharedModule,
     CoreModule
   ],
-  bootstrap: [AppComponent],
-  // providers: [LoggingService]
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

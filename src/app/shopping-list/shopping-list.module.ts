@@ -21,8 +21,7 @@ import { SharedModule } from '../shared/shared.module';
   exports: [
     ShoppingListComponent,
     ShoppingEditComponent
-  ],
-  // providers: [LoggingService]
+  ]
 })
 export class ShoppingListModule {
 
