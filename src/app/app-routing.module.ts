@@ -17,6 +17,11 @@ const appRoutes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module')
       .then(module => module.AuthModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./page-not-found/page-not-found.module')
+      .then(module => module.PageNotFoundModule)
   }
 ];
 
