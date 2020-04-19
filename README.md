@@ -5,7 +5,7 @@ It consists on a list of recipes and a shopping list.
 
 The application was deployed on firebase, to access it, click [here](https://angular-project-11f6f.web.app).
 
-## Running Application Process
+## Running Application Process on your computer
 
 1. Download the application by Clicking [this link](https://github.com/gaetanBloch/angular-project/archive/master.zip)
 2. Unzip the application
