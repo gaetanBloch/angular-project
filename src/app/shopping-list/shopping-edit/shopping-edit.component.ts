@@ -40,7 +40,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.shoppingListService.updateIngredient(this.editedItemIndex, ingredient);
     } else {
-      // this.shoppingListService.addIngredient(ingredient);
       this.store.dispatch(new ShoppingListActions.AddIngredient(ingredient));
     }
     this.resetForm();
@@ -55,9 +54,6 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.resetForm();
   }
 
-  /**
-   * Reset the form
-   */
   private resetForm(): void {
     this.editMode = false;
     this.shoppingForm.reset({
