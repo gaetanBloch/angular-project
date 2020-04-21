@@ -34,6 +34,11 @@ export function ShoppingListReducer(state = initialState,
         ...state,
         ingredients: updatedIngredients
       };
+    case ShoppingListActions.DELETE_INGREDIENT:
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((ig, index) => index !== action.payload)
+      };
     default:
       return state;
   }
