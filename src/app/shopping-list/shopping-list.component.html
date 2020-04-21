@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <app-shopping-edit></app-shopping-edit>
     <hr>
-    <div class="panel panel-default" *ngIf="hasIngredients()">
+    <div class="panel panel-default" *ngIf="(hasIngredients() | async).ingredients.length > 0">
       <div class="panel-heading"><strong>Ingredients to buy</strong></div>
       <ul class="list-group">
         <a class="list-group-item"

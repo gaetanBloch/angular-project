@@ -26,7 +26,7 @@ export class ShoppingListComponent implements OnInit {
     this.store.dispatch(new ShoppingListActions.StartEdit(index));
   }
 
-  hasIngredients(): boolean {
-    return this.shoppingListService.getIngredients().length > 0;
+  hasIngredients(): Observable<fromShoppingList.State> {
+    return this.store.select('shoppingList');
   }
 }
