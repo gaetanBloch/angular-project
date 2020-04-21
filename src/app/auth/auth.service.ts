@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -23,7 +23,6 @@ export interface AuthResponseData {
 @Injectable({providedIn: 'root'})
 export class AuthService {
   readonly apiKey = environment.firebaseApiKey;
-  user = new BehaviorSubject<User>(null);
   tokenExpirationTimeout: any;
 
   private static handleError(errorResponse: HttpErrorResponse) {
