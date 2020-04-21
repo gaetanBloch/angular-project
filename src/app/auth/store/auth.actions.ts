@@ -15,3 +15,5 @@ export class Login implements Action {
 export class Logout implements Action {
   readonly type = LOGOUT;
 }
+
+export type AuthActions = Login | Logout;
