@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+
 import { User } from './user.model';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import * as fromApp from '../store/app.reducer';
+import * as fromAuthActions from '../auth/store/auth.actions';
 
 export interface AuthResponseData {
   kind: string;
@@ -52,7 +56,9 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private store: Store<fromApp.AppState>) {
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
@@ -81,15 +87,15 @@ export class AuthService {
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(user);
-    const loadedUser = new User(
-      userData.email,
-      userData.id,
-      userData._token,
-      new Date(userData._tokenExpirationDate)
-    );
 
-    if (loadedUser.token) {
-      this.user.next(loadedUser);
+    if (userData._token) {
+      this.store.dispatch(new fromAuthActions.Login({
+        email: userData.email,
+        userId: userData.id,
+        token: userData._token,
+        expirationDate: new Date(userData._tokenExpirationDate)
+      }));
+
       const expirationDuration =
         new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
