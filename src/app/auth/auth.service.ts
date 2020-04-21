@@ -121,7 +121,12 @@ export class AuthService {
     const expiresInMillis = +response.expiresIn * 1000;
     const expirationDate = new Date(new Date().getTime() + expiresInMillis);
     const user = new User(response.email, response.localId, response.idToken, expirationDate);
-    this.user.next(user);
+    this.store.dispatch(new fromAuthActions.Login({
+      email: response.email,
+      userId: response.localId,
+      token: response.idToken,
+      expirationDate
+    }));
     this.autoLogout(expiresInMillis);
     localStorage.setItem('user', JSON.stringify(user));
   }
