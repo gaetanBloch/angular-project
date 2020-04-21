@@ -20,7 +20,7 @@ export interface AuthResponseData {
 export class AuthService {
   readonly apiKey = environment.firebaseApiKey;
   user = new BehaviorSubject<User>(null);
-  tokenExpirationTimeout: number;
+  tokenExpirationTimeout: any;
 
   private static handleError(errorResponse: HttpErrorResponse) {
     let errorMessage = 'An Unknown error occurred!';
