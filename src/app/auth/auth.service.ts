@@ -1,32 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
-}
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  tokenExpirationTimeout: any;
+  tokenExpirationTimeout = null;
 
-  constructor() {
+  constructor(private store: Store<fromApp.AppState>) {
   }
 
-  logout(): void {
-    localStorage.removeItem('user');
+  setLogoutTimer(expirationDuration: number): void {
+    console.log(`User login expires in: ${expirationDuration} ms`);
+    this.tokenExpirationTimeout = setTimeout(() => {
+      this.store.dispatch(new AuthActions.Logout());
+    }, expirationDuration);
+  }
+
+  clearLogoutTimer(): void {
     if (this.tokenExpirationTimeout) {
       clearTimeout(this.tokenExpirationTimeout);
+      this.tokenExpirationTimeout = null;
     }
-    this.tokenExpirationTimeout = null;
-  }
-
-  autoLogout(expirationDuration: number): void {
-    console.log(`User login expires in: ${expirationDuration} ms`);
-    this.tokenExpirationTimeout = setTimeout(() => this.logout(), expirationDuration);
   }
 }
