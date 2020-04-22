@@ -6,6 +6,7 @@ import { DataStorageService } from '../shared/data-storage.service';
 import { AuthService } from '../auth/auth.service';
 import * as fromApp from '../store/app.reducer';
 import { map } from 'rxjs/operators';
+import * as fromAuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -40,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.authService.logout();
+    this.store.dispatch(new fromAuthActions.Logout());
   }
 
   ngOnDestroy(): void {

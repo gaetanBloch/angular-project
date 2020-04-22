@@ -104,7 +104,6 @@ export class AuthService {
   }
 
   logout(): void {
-    this.store.dispatch(new fromAuthActions.Logout());
     localStorage.removeItem('user');
     if (this.tokenExpirationTimeout) {
       clearTimeout(this.tokenExpirationTimeout);
