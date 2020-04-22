@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -16,6 +17,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+@Injectable()
 export class AuthEffects {
   static readonly API_KEY = environment.firebaseApiKey;
 
@@ -32,13 +34,20 @@ export class AuthEffects {
           returnSecureToken: true
         }
       ).pipe(
-        catchError(error => {
-          // must return a non erroneous Observable
-          of()
-        }),
         map(response => {
-          // must return an Observable
-          of()
+          // must return an Action
+          const expiresInMillis = +response.expiresIn * 1000;
+          const expirationDate = new Date(new Date().getTime() + expiresInMillis);
+          return of(new AuthActions.Login({
+            email: response.email,
+            userId: response.localId,
+            token: response.idToken,
+            expirationDate
+          }))
+        }),
+        catchError(error => {
+          // must not return an erroneous Observable
+          return of()
         })
       )
     })
