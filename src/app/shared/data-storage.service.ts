@@ -5,13 +5,10 @@ import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService {
-  constructor(private http: HttpClient,
-              private recipeService: RecipeService,
-              private authService: AuthService) {
+  constructor(private http: HttpClient, private recipeService: RecipeService) {
   }
 
   storeRecipes(): void {
