@@ -21,6 +21,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
   private closeSubscription: Subscription;
+  private storeSubscription: Subscription;
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -29,7 +30,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.select('auth').subscribe(authState => {
+    this.storeSubscription = this.store.select('auth').subscribe(authState => {
       this.error = authState.authError
       if (this.error) {
         this.showErrorAlert(this.error);
@@ -72,6 +73,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.closeSubscription) {
       this.closeSubscription.unsubscribe();
     }
+    this.storeSubscription.unsubscribe();
   }
 
   private showErrorAlert(message: string): void {
