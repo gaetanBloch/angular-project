@@ -23,6 +23,22 @@ export class AuthEffects {
   static readonly API_KEY = environment.firebaseApiKey;
 
   @Effect()
+  authSignUp = this.actions$.pipe(
+    ofType(AuthActions.SIGN_UP_START),
+    switchMap((authData: AuthActions.SignUpStart) => {
+      return this.http.post<AuthResponseData>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+        AuthEffects.API_KEY,
+        {
+          email: authData.payload.email,
+          password: authData.payload.password,
+          returnSecureToken: true
+        }
+      )
+    })
+  );
+
+  @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
