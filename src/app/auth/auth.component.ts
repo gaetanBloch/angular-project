@@ -32,12 +32,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.storeSubscription = this.store.select('auth').subscribe(authState => {
       this.error = authState.authError
+      this.isLoading = authState.loading
+
       if (this.error) {
         this.showErrorAlert(this.error);
       }
 
       // This is a hack to let the navigation happen before the spinner disappears
-      setTimeout(() => this.isLoading = authState.loading, 1000);
+      // setTimeout(() => this.isLoading = authState.loading, 1000);
     });
   }
 
