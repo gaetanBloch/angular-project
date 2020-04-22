@@ -8,6 +8,7 @@ import { Action } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 
 import * as AuthActions from './auth.actions';
+import { User } from '../user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -22,6 +23,9 @@ export interface AuthResponseData {
 const handleAuthentication = (response: AuthResponseData): Action => {
   const expiresInMillis = +response.expiresIn * 1000;
   const expirationDate = new Date(new Date().getTime() + expiresInMillis);
+  const user = new User(response.email, response.localId, response.idToken, expirationDate);
+  localStorage.setItem('user', JSON.stringify(user));
+
   return new AuthActions.AuthenticateSuccess({
     email: response.email,
     userId: response.localId,
