@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 
 import * as AuthActions from './auth.actions';
@@ -18,8 +19,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
-const handleAuthentication = (response: AuthResponseData) => {
-  // Must return an action
+const handleAuthentication = (response: AuthResponseData): Action => {
   const expiresInMillis = +response.expiresIn * 1000;
   const expirationDate = new Date(new Date().getTime() + expiresInMillis);
   return new AuthActions.AuthenticateSuccess({
@@ -30,8 +30,7 @@ const handleAuthentication = (response: AuthResponseData) => {
   });
 }
 
-const handleError = (errorResponse: HttpErrorResponse) => {
-  // Must return an Observable of Action
+const handleError = (errorResponse: HttpErrorResponse): Observable<Action> => {
   let errorMessage = 'An Unknown error occurred!';
   if (!errorResponse.error || !errorResponse.error.error) {
     return of(new AuthActions.AuthenticateFail(errorMessage));
