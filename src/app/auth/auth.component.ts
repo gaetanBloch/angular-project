@@ -64,8 +64,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     }
 
-    // We let this here so we don't see the form reset when authenticating
-    this.isLoading = true;
+    // We let this here so we don't see the form reset when authenticating,
+    // even though we shouldn't because we are changing the state directly in the component
+    // instead of using Redux
+    // this.isLoading = true;
     form.reset();
   }
 
@@ -85,6 +87,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     alertComponentRef.instance.message = message;
     this.closeSubscription = alertComponentRef.instance.closeAlert.subscribe(() => {
       hostViewContainerRef.clear();
+      this.onHandleError();
       this.closeSubscription.unsubscribe();
     });
   }
