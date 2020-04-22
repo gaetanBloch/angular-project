@@ -22,7 +22,7 @@ export interface AuthResponseData {
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  readonly apiKey = environment.firebaseApiKey;
+  static readonly API_KEY = environment.firebaseApiKey;
   tokenExpirationTimeout: any;
 
   private static handleError(errorResponse: HttpErrorResponse) {
@@ -62,14 +62,16 @@ export class AuthService {
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.apiKey,
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+      AuthService.API_KEY,
       {email, password, returnSecureToken: true}
     ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
   }
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.apiKey,
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+      AuthService.API_KEY,
       {email, password, returnSecureToken: true}
     ).pipe(catchError(AuthService.handleError), tap(this.handleAuthentication.bind(this)));
   }
