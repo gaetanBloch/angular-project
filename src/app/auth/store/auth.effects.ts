@@ -115,9 +115,10 @@ export class AuthEffects {
   )
 
   @Effect({dispatch: false})
-  LogoutSuccess = this.actions$.pipe(
+  authLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     tap(() => {
+      localStorage.removeItem('user');
       this.router.navigate(['/auth']);
     })
   )
