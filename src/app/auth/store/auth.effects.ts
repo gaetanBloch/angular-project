@@ -32,14 +32,14 @@ export class AuthEffects {
           returnSecureToken: true
         }
       ).pipe(
-        catchError(
+        catchError(error => {
           // must return a non erroneous Observable
           of()
-        ),
-        map(
+        }),
+        map(response => {
           // must return an Observable
           of()
-        )
+        })
       )
     })
   );
