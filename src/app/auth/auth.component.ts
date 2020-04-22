@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import * as AuthActions from '../auth/store/auth.actions';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
@@ -26,6 +26,13 @@ export class AuthComponent implements OnDestroy {
               private router: Router,
               private componentFactoryResolver: ComponentFactoryResolver,
               private store: Store<fromApp.AppState>) {
+  }
+
+  ngOnInit(): void {
+    this.store.select('auth').subscribe(authState => {
+      this.isLoading = authState.loading;
+      this.error = authState.authError
+    });
   }
 
   onSwitchMode(): void {
@@ -52,18 +59,20 @@ export class AuthComponent implements OnDestroy {
     } else {
       authObservable = this.authService.signUp(email, password);
     }
-    authObservable.subscribe(response => {
-        this.error = null;
-        this.router.navigate(['/recipes']).then(() => this.isLoading = false);
-      },
-      errorMessage => {
-        this.error = errorMessage;
-        this.showErrorAlert(errorMessage);
-        this.isLoading = false;
-      });
-
-    form.reset();
   }
+
+  //   authObservable.subscribe(response => {
+  //       this.error = null;
+  //       this.router.navigate(['/recipes']).then(() => this.isLoading = false);
+  //     },
+  //     errorMessage => {
+  //       this.error = errorMessage;
+  //       this.showErrorAlert(errorMessage);
+  //       this.isLoading = false;
+  //     });
+  //
+  //   form.reset();
+  // }
 
   ngOnDestroy(): void {
     if (this.closeSubscription) {

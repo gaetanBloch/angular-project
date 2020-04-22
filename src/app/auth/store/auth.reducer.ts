@@ -4,11 +4,13 @@ import * as AuthActions from '../store/auth.actions';
 export interface State {
   user: User;
   authError: string;
+  loading: boolean;
 }
 
 const initialState: State = {
   user: null,
-  authError: null
+  authError: null,
+  loading: false
 };
 
 export function authReducer(state: State = initialState, action: AuthActions.AuthActions) {
@@ -16,7 +18,8 @@ export function authReducer(state: State = initialState, action: AuthActions.Aut
     case AuthActions.LOGIN_START:
       return {
         ...state,
-        authError: null
+        authError: null,
+        loading: true
       };
     case AuthActions.LOGIN:
       const user = new User(
@@ -28,13 +31,15 @@ export function authReducer(state: State = initialState, action: AuthActions.Aut
       return {
         ...state,
         user,
-        authError: null
+        authError: null,
+        loading: false
       };
     case AuthActions.LOGIN_FAIL:
       return {
         ...state,
         user: null,
-        authError: action.payload
+        authError: action.payload,
+        loading: false
       };
     case AuthActions.LOGOUT:
       return {
