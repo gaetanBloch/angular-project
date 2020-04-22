@@ -18,6 +18,17 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+const handleAuthentication = (response: AuthResponseData) => {
+  const expiresInMillis = +response.expiresIn * 1000;
+  const expirationDate = new Date(new Date().getTime() + expiresInMillis);
+  return new AuthActions.AuthenticateSuccess({
+    email: response.email,
+    userId: response.localId,
+    token: response.idToken,
+    expirationDate
+  });
+}
+
 @Injectable()
 export class AuthEffects {
   static readonly API_KEY = environment.firebaseApiKey;
@@ -34,6 +45,8 @@ export class AuthEffects {
           password: authData.payload.password,
           returnSecureToken: true
         }
+      ).pipe(
+        map(handleAuthentication)
       )
     })
   );
@@ -51,17 +64,7 @@ export class AuthEffects {
           returnSecureToken: true
         }
       ).pipe(
-        map(response => {
-          // must return an Action
-          const expiresInMillis = +response.expiresIn * 1000;
-          const expirationDate = new Date(new Date().getTime() + expiresInMillis);
-          return new AuthActions.AuthenticateSuccess({
-            email: response.email,
-            userId: response.localId,
-            token: response.idToken,
-            expirationDate
-          })
-        }),
+        map(handleAuthentication),
         catchError(errorResponse => {
           // must return an Observable of Action
           let errorMessage = 'An Unknown error occurred!';
