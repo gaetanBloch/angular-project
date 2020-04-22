@@ -8,6 +8,7 @@ import { Action } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 
 import * as AuthActions from './auth.actions';
+import * as fromAuthActions from './auth.actions';
 import { User } from '../user.model';
 
 export interface AuthResponseData {
@@ -111,6 +112,41 @@ export class AuthEffects {
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => {
       this.router.navigate(['/']);
+    })
+  )
+
+  @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
+    map(() => {
+      const user = localStorage.getItem('user');
+      if (!user) {
+        // Return Dummy action
+        return {type: 'DUMMY'};
+      }
+
+      const userData: {
+        email: string,
+        id: string,
+        _token: string,
+        _tokenExpirationDate: string
+      } = JSON.parse(user);
+
+      if (userData._token) {
+        return new fromAuthActions.AuthenticateSuccess({
+          email: userData.email,
+          userId: userData.id,
+          token: userData._token,
+          expirationDate: new Date(userData._tokenExpirationDate)
+        });
+
+        // const expirationDuration =
+        //   new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+        // this.autoLogout(expirationDuration);
+      }
+
+      // Return Dummy action
+      return {type: 'DUMMY'};
     })
   )
 
