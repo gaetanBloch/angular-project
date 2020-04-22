@@ -3,7 +3,7 @@
 The application was made using Angular 9, Bootstrap and Firebase as a backend.
 It consists on a list of recipes and a shopping list.
 
-The last implementation of the application is using [Redux](https://redux.js.org/) to manage the overall state of the application.
+The last implementation of the application is using [Redux](https://redux.js.org/) implementation for Angular called [NgRx](https://ngrx.io/) to manage the overall state of the application.
 
 **The application was deployed on firebase, to access it, click [here](https://angular-project-11f6f.web.app).**
 
