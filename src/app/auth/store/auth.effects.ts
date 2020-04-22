@@ -38,12 +38,12 @@ export class AuthEffects {
           // must return an Action
           const expiresInMillis = +response.expiresIn * 1000;
           const expirationDate = new Date(new Date().getTime() + expiresInMillis);
-          return of(new AuthActions.Login({
+          return new AuthActions.Login({
             email: response.email,
             userId: response.localId,
             token: response.idToken,
             expirationDate
-          }))
+          })
         }),
         catchError(error => {
           // must not return an erroneous Observable
