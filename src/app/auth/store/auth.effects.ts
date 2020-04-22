@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -19,6 +19,7 @@ export interface AuthResponseData {
 }
 
 const handleAuthentication = (response: AuthResponseData) => {
+  // Must return an action
   const expiresInMillis = +response.expiresIn * 1000;
   const expirationDate = new Date(new Date().getTime() + expiresInMillis);
   return new AuthActions.AuthenticateSuccess({
@@ -27,6 +28,37 @@ const handleAuthentication = (response: AuthResponseData) => {
     token: response.idToken,
     expirationDate
   });
+}
+
+const handleError = (errorResponse: HttpErrorResponse) => {
+  // Must return an Observable of Action
+  let errorMessage = 'An Unknown error occurred!';
+  if (!errorResponse.error || !errorResponse.error.error) {
+    return of(new AuthActions.AuthenticateFail(errorMessage));
+  }
+  switch (errorResponse.error.error.message) {
+    case 'EMAIL_EXISTS' :
+      errorMessage = 'The email address is already in use by another account.';
+      break;
+    case 'OPERATION_NOT_ALLOWED':
+      errorMessage = 'Password sign-in is disabled for this project.';
+      break;
+    case 'TOO_MANY_ATTEMPTS_TRY_LATER' :
+      errorMessage = 'We have blocked all requests from this device due to ' +
+        'unusual activity. Try again later.';
+      break;
+    case 'EMAIL_NOT_FOUND' :
+      errorMessage = 'There is no user record corresponding to this identifier.' +
+        ' The user may have been deleted.';
+      break;
+    case 'INVALID_PASSWORD':
+      errorMessage = 'The password is invalid or the user does not have a password.';
+      break;
+    case 'USER_DISABLED' :
+      errorMessage = 'The user account has been disabled by an administrator.';
+      break;
+  }
+  return of(new AuthActions.AuthenticateFail(errorMessage));
 }
 
 @Injectable()
@@ -46,7 +78,8 @@ export class AuthEffects {
           returnSecureToken: true
         }
       ).pipe(
-        map(handleAuthentication)
+        map(handleAuthentication),
+        catchError(handleError)
       )
     })
   );
@@ -65,36 +98,7 @@ export class AuthEffects {
         }
       ).pipe(
         map(handleAuthentication),
-        catchError(errorResponse => {
-          // must return an Observable of Action
-          let errorMessage = 'An Unknown error occurred!';
-          if (!errorResponse.error || !errorResponse.error.error) {
-            return of(new AuthActions.AuthenticateFail(errorMessage));
-          }
-          switch (errorResponse.error.error.message) {
-            case 'EMAIL_EXISTS' :
-              errorMessage = 'The email address is already in use by another account.';
-              break;
-            case 'OPERATION_NOT_ALLOWED':
-              errorMessage = 'Password sign-in is disabled for this project.';
-              break;
-            case 'TOO_MANY_ATTEMPTS_TRY_LATER' :
-              errorMessage = 'We have blocked all requests from this device due to ' +
-                'unusual activity. Try again later.';
-              break;
-            case 'EMAIL_NOT_FOUND' :
-              errorMessage = 'There is no user record corresponding to this identifier.' +
-                ' The user may have been deleted.';
-              break;
-            case 'INVALID_PASSWORD':
-              errorMessage = 'The password is invalid or the user does not have a password.';
-              break;
-            case 'USER_DISABLED' :
-              errorMessage = 'The user account has been disabled by an administrator.';
-              break;
-          }
-          return of(new AuthActions.AuthenticateFail(errorMessage));
-        })
+        catchError(handleError)
       )
     })
   );
