@@ -16,7 +16,12 @@ export function recipeReducer(state: State = initialState, action: RecipeActions
       return {
         ...state,
         recipes: [...action.payload]
-      }
+      };
+    case RecipeActions.ADD_RECIPE:
+      return {
+        ...state,
+        recipes: [...state.recipes, action.payload]
+      };
     default:
       return state;
   }
