@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { RecipeService } from '../recipe.service';
 import * as fromApp from '../../store/app.reducer';
+import * as RecipeActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -56,7 +57,10 @@ export class RecipeEditComponent implements OnInit {
 
   onSubmit(): void {
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      this.store.dispatch(new RecipeActions.UpdateRecipe({
+        index: this.id,
+        recipe: this.recipeForm.value
+      }));
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
