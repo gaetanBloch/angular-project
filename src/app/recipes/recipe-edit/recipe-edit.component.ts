@@ -62,7 +62,7 @@ export class RecipeEditComponent implements OnInit {
         recipe: this.recipeForm.value
       }));
     } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
+      this.store.dispatch(new RecipeActions.AddRecipe(this.recipeForm.value));
     }
     this.goBackToDetails();
   }
