@@ -18,10 +18,14 @@ export class RecipeEffects {
         'https://angular-project-11f6f.firebaseio.com/recipes.json'
       ).pipe(
         map(recipes => {
-          return recipes.map(recipe => {
-            // Set the ingredients to an empty array if it is not set
-            return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};
-          });
+          if (recipes) {
+            return recipes.map(recipe => {
+              // Set the ingredients to an empty array if it is not set
+              return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []};
+            });
+          } else {
+            return [];
+          }
         }),
         map(recipes => new RecipeActions.SetRecipes(recipes))
       )
