@@ -4,7 +4,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as RecipeActions from './recipe.actions';
 import { Recipe } from '../recipe.model';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class RecipeEffects {
 
   @Effect()
