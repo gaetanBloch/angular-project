@@ -5,6 +5,7 @@ import { Recipe } from '../recipe.model';
 export const SET_RECIPES = '[Recipes] Set Recipes'
 export const FETCH_RECIPES = '[Recipes] Fetch Recipes'
 export const ADD_RECIPE = '[Recipes] Add Recipe'
+export const UPDATE_RECIPE = '[Recipes] Update Recipe'
 
 export class SetRecipes implements Action {
   readonly type = SET_RECIPES;
@@ -24,4 +25,11 @@ export class AddRecipe implements Action {
   }
 }
 
-export type RecipeActions = SetRecipes | FetchRecipes | AddRecipe;
+export class UpdateRecipe implements Action {
+  readonly type = UPDATE_RECIPE;
+
+  constructor(public payload: { id: number, recipe: Recipe }) {
+  }
+}
+
+export type RecipeActions = SetRecipes | FetchRecipes | AddRecipe | UpdateRecipe;
