@@ -1,5 +1,6 @@
-import { Recipe } from '../recipe.model';
+import { Action, createReducer, on } from '@ngrx/store';
 
+import { Recipe } from '../recipe.model';
 import * as RecipeActions from './recipe.actions'
 
 // const recipes: Recipe[] = [
@@ -34,39 +35,26 @@ const initialState: State = {
   recipes: []
 }
 
-export function recipeReducer(state: State = initialState, action: RecipeActions.RecipeActions) {
-  switch (action.type) {
-    case RecipeActions.SET_RECIPES:
-      return {
-        ...state,
-        recipes: [...action.payload]
-      };
-    case RecipeActions.ADD_RECIPE:
-      return {
-        ...state,
-        recipes: [...state.recipes, action.payload]
-      };
-    case RecipeActions.UPDATE_RECIPE:
-      // Copy the recipe we want to update and merge the new recipe from the payload
-      const updatedRecipe = {
-        ...state.recipes[action.payload.index],
-        ...action.payload.recipe
-      };
-
-      // Copy the recipes and replace the updated recipe
-      const updatedRecipes = [...state.recipes];
-      updatedRecipes[action.payload.index] = updatedRecipe;
-
-      return {
-        ...state,
-        recipes: updatedRecipes
-      };
-    case RecipeActions.DELETE_RECIPE:
-      return {
-        ...state,
-        recipes: state.recipes.filter((recipe, index) => index !== action.payload)
-      };
-    default:
-      return state;
-  }
+export function recipeReducer(recipeState: State | undefined, recipeAction: Action) {
+  return createReducer(
+    initialState,
+    on(RecipeActions.setRecipes, (state, action) => ({
+      ...state,
+      recipes: [...action.recipes]
+    })),
+    on(RecipeActions.addRecipe, (state, action) => ({
+      ...state,
+      recipes: state.recipes.concat({...action.recipe})
+    })),
+    on(RecipeActions.updateRecipe, (state, action) => ({
+      ...state,
+      recipes: state.recipes.map((recipe, index) =>
+        index === action.index ? {...action.recipe} : recipe
+      )
+    })),
+    on(RecipeActions.deleteRecipe, (state, action) => ({
+      ...state,
+      recipes: state.recipes.filter((recipe, index) => index !== action.index)
+    }))
+  )(recipeState, recipeAction);
 }
