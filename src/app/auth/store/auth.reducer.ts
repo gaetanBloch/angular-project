@@ -25,9 +25,15 @@ export function authReducer(authState: State | undefined, authAction: Action) {
     })),
     on(AuthActions.authenticateSuccess, (state, action) => ({
       ...state,
+      user: new User(action.email, action.userId, action.token, action.expirationDate),
       authError: null,
-      loading: false,
-      user: new User(action.email, action.userId, action.token, action.expirationDate)
+      loading: false
+    })),
+    on(AuthActions.authenticateFail, (state, action) => ({
+      ...state,
+      user: null,
+      authError: action.errorMessage,
+      loading: false
     }))
   )(authState, authAction);
 }
