@@ -37,6 +37,10 @@ export function shoppingListReducer(shoppingListState: State | undefined,
       editIndex: -1,
       ingredients: state.ingredients.filter((ig, index) => index !== state.editIndex)
     })),
+    on(ShoppingListActions.startEdit, (state, action) => ({
+      ...state,
+      editIndex: action.index,
+    })),
   )(shoppingListState, shoppingListAction)
 }
 
