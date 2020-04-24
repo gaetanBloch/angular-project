@@ -1,6 +1,7 @@
 import { User } from '../user.model';
 
 import * as AuthActions from './auth.actions';
+import { Action, createReducer } from '@ngrx/store';
 
 export interface State {
   user: User;
@@ -14,7 +15,13 @@ const initialState: State = {
   loading: false
 };
 
-export function authReducer(state: State = initialState, action: AuthActions.AuthActions) {
+export function authReducer(authState: State | undefined, authAction: Action) {
+  return createReducer(
+    initialState
+  )(authState, authAction);
+}
+
+export function authReducerOld(state: State = initialState, action: AuthActions.AuthActions) {
   switch (action.type) {
     case AuthActions.LOGIN_START:
     case AuthActions.SIGN_UP_START:
