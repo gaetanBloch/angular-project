@@ -122,6 +122,43 @@ export class AuthEffects {
           }
         })
       )
+    ), {dispatch: false}
+  );
+
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      map(() => {
+        const user = localStorage.getItem('user');
+        if (!user) {
+          // Return Dummy action
+          return {type: 'DUMMY'};
+        }
+
+        const userData: {
+          email: string,
+          id: string,
+          _token: string,
+          _tokenExpirationDate: string
+        } = JSON.parse(user);
+
+        if (userData._token) {
+          const expirationDuration =
+            new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+          this.authService.setLogoutTimer(expirationDuration);
+
+          return fromAuthActions.authenticateSuccess({
+            email: userData.email,
+            userId: userData.id,
+            token: userData._token,
+            expirationDate: new Date(userData._tokenExpirationDate),
+            redirect: false
+          });
+        }
+
+        // Return Dummy action
+        return {type: 'DUMMY'};
+      })
     )
   );
 
