@@ -34,6 +34,14 @@ export function authReducer(authState: State | undefined, authAction: Action) {
       user: null,
       authError: action.errorMessage,
       loading: false
+    })),
+    on(AuthActions.clearError, state => ({
+      ...state,
+      authError: null
+    })),
+    on(AuthActions.logout, state => ({
+      ...state,
+      user: null
     }))
   )(authState, authAction);
 }
