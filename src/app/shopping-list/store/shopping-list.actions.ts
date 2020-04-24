@@ -14,6 +14,9 @@ export const updateIngredient = createAction(
   '[Shopping List] Update Ingredient',
   props<{ ingredient: Ingredient }>()
 );
+export const deleteIngredient = createAction(
+  '[Shopping List] Delete Ingredient'
+);
 export const ADD_INGREDIENT = '[Shopping List] Add Ingredient';
 export const ADD_INGREDIENTS = '[Shopping List] Add Ingredients';
 export const UPDATE_INGREDIENT = '[Shopping List] Update Ingredients';
