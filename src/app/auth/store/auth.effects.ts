@@ -11,7 +11,6 @@ import * as AuthActions from './auth.actions';
 import * as fromAuthActions from './auth.actions';
 import { User } from '../user.model';
 import { AuthService } from '../auth.service';
-import { Recipe } from '../../recipes/recipe.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -72,6 +71,27 @@ const handleError = (errorResponse: HttpErrorResponse): Observable<Action> => {
 export class AuthEffects {
   static readonly API_KEY = environment.firebaseApiKey;
 
+  authLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginStart),
+      switchMap(actionData => {
+        return this.http.post<AuthResponseData>(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+          AuthEffects.API_KEY,
+          {
+            email: actionData.email,
+            password: actionData.password,
+            returnSecureToken: true
+          }
+        ).pipe(
+          tap(this.setLogoutTimer.bind(this)),
+          map(handleAuthentication),
+          catchError(handleError)
+        )
+      })
+    )
+  );
+
   authSignUp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpStart),
@@ -89,29 +109,6 @@ export class AuthEffects {
           map(handleAuthentication),
           catchError(handleError)
         )
-      })
-    )
-  );
-
-  fetchRecipes$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.signUpStart),
-      switchMap(() => {
-        return this.http
-          .get<Recipe[]>(
-            'https://shopping-app-6c625.firebaseio.com/recipes.json'
-          );
-      }),
-      map(recipes => {
-        return recipes.map(recipe => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : []
-          };
-        });
-      }),
-      map(recipes => {
-        return AuthActions.signUpStart({email: '', password: ''});
       })
     )
   );
