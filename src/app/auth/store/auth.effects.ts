@@ -113,18 +113,6 @@ export class AuthEffects {
     )
   );
 
-  authSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.authenticateSuccess),
-      tap((actionData => {
-          if (actionData.redirect) {
-            this.router.navigate(['/']);
-          }
-        })
-      )
-    ), {dispatch: false}
-  );
-
   autoLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.autoLogin),
@@ -160,6 +148,29 @@ export class AuthEffects {
         return {type: 'DUMMY'};
       })
     )
+  );
+
+  authSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.authenticateSuccess),
+      tap((actionData => {
+          if (actionData.redirect) {
+            this.router.navigate(['/']);
+          }
+        })
+      )
+    ), {dispatch: false}
+  );
+
+  authLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      tap(() => {
+        this.authService.clearLogoutTimer();
+        localStorage.removeItem('user');
+        this.router.navigate(['/auth']);
+      })
+    ), {dispatch: false}
   );
 
   @Effect()
