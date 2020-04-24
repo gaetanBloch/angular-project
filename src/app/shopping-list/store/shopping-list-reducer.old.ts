@@ -20,6 +20,10 @@ export function shoppingListReducer(shoppingListState: State | undefined,
     on(ShoppingListActions.addIngredient, (state, action) => ({
       ...state,
       ingredients: state.ingredients.concat(action.ingredient)
+    })),
+    on(ShoppingListActions.addIngredients, (state, action) => ({
+      ...state,
+      ingredients: state.ingredients.concat(...action.ingredients)
     }))
   )(shoppingListState, shoppingListAction)
 }

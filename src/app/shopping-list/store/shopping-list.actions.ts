@@ -8,7 +8,7 @@ export const addIngredient = createAction(
 );
 export const addIngredients = createAction(
   '[Shopping List] Add Ingredients',
-  props<{ ingredient: Ingredient[] }>()
+  props<{ ingredients: Ingredient[] }>()
 );
 export const updateIngredient = createAction(
   '[Shopping List] Update Ingredient',
