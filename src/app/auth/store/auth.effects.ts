@@ -113,6 +113,18 @@ export class AuthEffects {
     )
   );
 
+  authSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.authenticateSuccess),
+      tap((actionData => {
+          if (actionData.redirect) {
+            this.router.navigate(['/']);
+          }
+        })
+      )
+    )
+  );
+
   @Effect()
   authSignUp = this.actions$.pipe(
     ofType(AuthActions.SIGN_UP_START),
