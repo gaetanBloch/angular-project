@@ -1,4 +1,4 @@
-import { Action, createReducer } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
@@ -16,7 +16,11 @@ const initialState: State = {
 export function shoppingListReducer(shoppingListState: State | undefined,
                                     shoppingListAction: Action) {
   return createReducer(
-    initialState
+    initialState,
+    on(ShoppingListActions.addIngredient, (state, action) => ({
+      ...state,
+      ingredients: state.ingredients.concat(action.ingredient)
+    }))
   )(shoppingListState, shoppingListAction)
 }
 
