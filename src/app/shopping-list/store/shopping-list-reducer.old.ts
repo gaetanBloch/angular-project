@@ -32,7 +32,7 @@ export function shoppingListReducer(shoppingListState: State | undefined,
         index === state.editIndex ? {...action.ingredient} : ingredient
       )
     })),
-    on(ShoppingListActions.deleteIngredient, (state, action) => ({
+    on(ShoppingListActions.deleteIngredient, state => ({
       ...state,
       editIndex: -1,
       ingredients: state.ingredients.filter((ig, index) => index !== state.editIndex)
@@ -41,6 +41,10 @@ export function shoppingListReducer(shoppingListState: State | undefined,
       ...state,
       editIndex: action.index,
     })),
+    on(ShoppingListActions.stopEdit, state => ({
+      ...state,
+      editIndex: -1,
+    }))
   )(shoppingListState, shoppingListAction)
 }
 
