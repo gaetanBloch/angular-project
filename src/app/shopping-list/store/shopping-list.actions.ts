@@ -1,7 +1,11 @@
-import { Action } from '@ngrx/store';
+import { Action, createAction, props } from '@ngrx/store';
 
 import { Ingredient } from '../../shared/ingredient.model';
 
+export const addIngredient = createAction(
+  '[Shopping List] Add Ingredient',
+  props<{ ingredient: Ingredient }>()
+);
 export const ADD_INGREDIENT = '[Shopping List] Add Ingredient';
 export const ADD_INGREDIENTS = '[Shopping List] Add Ingredients';
 export const UPDATE_INGREDIENT = '[Shopping List] Update Ingredients';
