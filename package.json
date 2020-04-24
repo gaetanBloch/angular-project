@@ -28,7 +28,6 @@
     "@ngrx/router-store": "^9.1.0",
     "@ngrx/store": "^9.1.0",
     "@nguniversal/express-engine": "^9.1.0",
-    "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
     "bootstrap": "^3.4.1",
     "express": "^4.15.2",
     "rxjs": "~6.5.4",
