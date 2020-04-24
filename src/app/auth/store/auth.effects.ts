@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 
@@ -172,100 +172,6 @@ export class AuthEffects {
       })
     ), {dispatch: false}
   );
-
-  @Effect()
-  authSignUp = this.actions$.pipe(
-    ofType(AuthActions.SIGN_UP_START),
-    switchMap((authData: AuthActions.SignUpStart) => {
-      return this.http.post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
-        AuthEffects.API_KEY,
-        {
-          email: authData.payload.email,
-          password: authData.payload.password,
-          returnSecureToken: true
-        }
-      ).pipe(
-        map(this.handleAuthentication.bind(this)),
-        catchError(this.handleError)
-      )
-    })
-  );
-
-  @Effect()
-  authLogin = this.actions$.pipe(
-    ofType(AuthActions.LOGIN_START),
-    switchMap((authData: AuthActions.LoginStart) => {
-      return this.http.post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
-        AuthEffects.API_KEY,
-        {
-          email: authData.payload.email,
-          password: authData.payload.password,
-          returnSecureToken: true
-        }
-      ).pipe(
-        map(this.handleAuthentication.bind(this)),
-        catchError(this.handleError)
-      )
-    })
-  );
-
-  @Effect({dispatch: false})
-  authSuccess = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS),
-    tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
-      if (authSuccessAction.payload.redirect) {
-        this.router.navigate(['/']);
-      }
-    })
-  )
-
-  @Effect()
-  autoLogin = this.actions$.pipe(
-    ofType(AuthActions.AUTO_LOGIN),
-    map(() => {
-      const user = localStorage.getItem('user');
-      if (!user) {
-        // Return Dummy action
-        return {type: 'DUMMY'};
-      }
-
-      const userData: {
-        email: string,
-        id: string,
-        _token: string,
-        _tokenExpirationDate: string
-      } = JSON.parse(user);
-
-      if (userData._token) {
-        const expirationDuration =
-          new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-        this.authService.setLogoutTimer(expirationDuration);
-
-        return new fromAuthActions.AuthenticateSuccess({
-          email: userData.email,
-          userId: userData.id,
-          token: userData._token,
-          expirationDate: new Date(userData._tokenExpirationDate),
-          redirect: false
-        });
-      }
-
-      // Return Dummy action
-      return {type: 'DUMMY'};
-    })
-  )
-
-  @Effect({dispatch: false})
-  authLogout = this.actions$.pipe(
-    ofType(AuthActions.LOGOUT),
-    tap(() => {
-      this.authService.clearLogoutTimer();
-      localStorage.removeItem('user');
-      this.router.navigate(['/auth']);
-    })
-  )
 
   constructor(private actions$: Actions,
               private http: HttpClient,
