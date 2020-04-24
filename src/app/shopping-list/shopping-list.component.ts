@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { Ingredient } from '../shared/ingredient.model';
 import * as fromShoppingList from './store/shopping-list-reducer';
 import * as ShoppingListActions from '../shopping-list/store/shopping-list.actions';
