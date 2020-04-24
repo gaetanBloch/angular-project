@@ -1,5 +1,6 @@
-import { Ingredient } from '../../shared/ingredient.model';
+import { Action, createReducer } from '@ngrx/store';
 
+import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
 export interface State {
@@ -12,8 +13,15 @@ const initialState: State = {
   editIndex: -1
 };
 
-export function shoppingListReducer(state: State = initialState,
-                                    action: ShoppingListActions.ShoppingListActions) {
+export function shoppingListReducer(shoppingListState: State | undefined,
+                                    shoppingListAction: Action) {
+  return createReducer(
+    initialState
+  )(shoppingListState, shoppingListAction)
+}
+
+export function shoppingListReducerOld(state: State = initialState,
+                                       action: ShoppingListActions.ShoppingListActions) {
   switch (action.type) {
     case ShoppingListActions.ADD_INGREDIENT:
       return {

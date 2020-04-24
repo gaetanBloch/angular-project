@@ -1,6 +1,6 @@
 import { ActionReducerMap } from '@ngrx/store';
 
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducer';
+import * as fromShoppingList from '../shopping-list/store/shopping-list-reducer.old';
 import * as fromAuth from '../auth/store/auth.reducer';
 import * as fromRecipes from '../recipes/store/recipe.reducer';
 
@@ -11,7 +11,7 @@ export interface AppState {
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
-  shoppingList: fromShoppingList.shoppingListReducer,
+  shoppingList: fromShoppingList.shoppingListReducerOld,
   auth: fromAuth.authReducer,
   recipes: fromRecipes.recipeReducer
 };
