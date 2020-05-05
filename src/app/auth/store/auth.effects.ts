@@ -22,7 +22,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
-const USER = 'user-fitness';
+const USER = 'user-angular';
 
 const handleAuthentication = (response: AuthResponseData): Action => {
   const expiresInMillis = +response.expiresIn * 1000;
