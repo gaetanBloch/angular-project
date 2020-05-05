@@ -22,11 +22,13 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+const USER = 'user-fitness';
+
 const handleAuthentication = (response: AuthResponseData): Action => {
   const expiresInMillis = +response.expiresIn * 1000;
   const expirationDate = new Date(new Date().getTime() + expiresInMillis);
   const user = new User(response.email, response.localId, response.idToken, expirationDate);
-  localStorage.setItem('user', JSON.stringify(user));
+  sessionStorage.setItem(USER, JSON.stringify(user));
 
   return AuthActions.authenticateSuccess({
     email: response.email,
@@ -117,7 +119,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.autoLogin),
       map(() => {
-        const user = localStorage.getItem('user');
+        const user = sessionStorage.getItem(USER);
         if (!user) {
           // Return Dummy action
           return {type: 'DUMMY'};
@@ -167,7 +169,7 @@ export class AuthEffects {
       ofType(AuthActions.logout),
       tap(() => {
         this.authService.clearLogoutTimer();
-        localStorage.removeItem('user');
+        sessionStorage.removeItem(USER);
         this.router.navigate(['/auth']);
       })
     ), {dispatch: false}
